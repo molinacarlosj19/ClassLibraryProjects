@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  name: 'Default'
+  name: 'POOLCOMP367'
 
 variables:
   solution: '**/*.sln'
@@ -28,6 +28,20 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/*.csproj'
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1'
+    minorVersion: '0'
+    patchVersion: '0'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'd1e54bff-9dd4-4943-8a8f-5c3e47d36b97/63c9f875-fa6d-49f0-b864-cc267bafe8c5'
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
