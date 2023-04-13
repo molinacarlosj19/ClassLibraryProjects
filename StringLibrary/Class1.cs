@@ -6,7 +6,8 @@ public static class StringLibrary
     {
         if (string.IsNullOrWhiteSpace(str))
             return false;
-
+        
+        //Initialize
         char ch = str[0];
         return char.IsUpper(ch);
     }
